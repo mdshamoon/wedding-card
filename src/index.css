@@ -47,6 +47,9 @@
   --env-liner: none;
   --env-gold: #a9822c;
   --env-ink: #5a4420;
+
+  /* Solid colour iOS Safari samples for the bottom toolbar */
+  --bar: #e6d6b3;
 }
 
 /* ---- Theme: Emerald & Gold ---- */
@@ -75,6 +78,8 @@
   --env-liner: linear-gradient(160deg, #0c3123 0%, #082419 100%);
   --env-gold: #e0c06a;
   --env-ink: #f3e7c9;
+
+  --bar: #0f3d2e;
 }
 
 @layer base {
@@ -89,7 +94,9 @@
   body {
     font-family: var(--font-serif);
     color: var(--ink);
-    background: var(--grad-page) fixed;
+    background-image: var(--grad-page);
+    background-color: var(--bar);
+    background-attachment: fixed;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
