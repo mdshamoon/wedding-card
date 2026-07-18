@@ -41,7 +41,10 @@ const envVars = { ["--accent"]: "var(--env-gold)" } as CSSProperties;
 function EnvPaper({ variant = "env" }: { variant?: "env" | "liner" }) {
   return (
     <>
-      <div className="absolute inset-0 bg-[url('/texture-cream.jpg')] bg-cover bg-center" />
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${import.meta.env.BASE_URL}texture-cream.jpg)` }}
+      />
       <div
         className={`absolute inset-0 mix-blend-multiply ${
           variant === "liner" ? "bg-[image:var(--env-liner)]" : "bg-[image:var(--env)]"

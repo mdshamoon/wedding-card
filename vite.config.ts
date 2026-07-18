@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
-export default defineConfig({
+// Project pages are served from /<repo>/, so use that base for builds only.
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/wedding-card/' : '/',
   plugins: [react(), tailwindcss()],
-})
+}))
