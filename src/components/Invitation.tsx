@@ -2,6 +2,9 @@ import { motion, type Variants } from "framer-motion";
 import { wedding } from "../config";
 import { CountdownTimer } from "./CountdownTimer";
 import { CornerFlourish, Divider, Monogram } from "./Ornaments";
+import { EventActions } from "./EventActions";
+import { RsvpForm } from "./RsvpForm";
+import { ShareButton } from "./ShareButton";
 
 const container: Variants = {
   hidden: {},
@@ -78,6 +81,7 @@ export function Invitation() {
               <p className="mb-2 text-base text-muted">{e.time}</p>
               <p className="text-[1.05rem] italic text-accent2">{e.venue}</p>
               <p className="text-sm text-muted2">{e.address}</p>
+              <EventActions event={e} maps={e.maps} />
             </div>
           ))}
         </motion.div>
@@ -93,7 +97,29 @@ export function Invitation() {
           </cite>
         </motion.blockquote>
 
-        <motion.p variants={item} className="mt-6 font-script text-[1.9rem] text-accent2">
+        <motion.div variants={item} className="my-5 flex justify-center">
+          <Divider width={200} />
+        </motion.div>
+
+        {/* RSVP */}
+        <motion.div variants={item} className="mx-auto max-w-[26rem]">
+          <h2 className="font-display text-xl tracking-[0.14em] gold-text">RSVP</h2>
+          <p className="mb-4 mt-1 text-sm italic text-muted">
+            Kindly let us know by 10 March 2027
+          </p>
+          <RsvpForm />
+        </motion.div>
+
+        {/* Share */}
+        <motion.div variants={item} className="mt-8 flex justify-center">
+          <ShareButton
+            url={wedding.siteUrl}
+            title={`${wedding.groom} & ${wedding.bride} — Wedding`}
+            text={`You're invited to the wedding of ${wedding.groom} & ${wedding.bride}!`}
+          />
+        </motion.div>
+
+        <motion.p variants={item} className="mt-8 font-script text-[1.9rem] text-accent2">
           {wedding.closing}
         </motion.p>
       </motion.div>

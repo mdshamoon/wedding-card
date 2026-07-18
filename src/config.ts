@@ -20,6 +20,11 @@ export const wedding = {
       time: "11:00 AM onwards",
       venue: "Blessing Garden",
       address: "Baheri, Uttar Pradesh",
+      // Local start/end for calendar files (YYYY-MM-DDTHH:mm:ss)
+      start: "2027-03-24T11:00:00",
+      end: "2027-03-24T15:00:00",
+      // What to search for in Google Maps
+      maps: "Blessing Garden, Baheri, Uttar Pradesh",
     },
     {
       title: "The Reception (Walima)",
@@ -28,8 +33,14 @@ export const wedding = {
       time: "7:00 PM onwards",
       venue: "Grand Heritage",
       address: "Kiccha, Uttarakhand",
+      start: "2027-03-25T19:00:00",
+      end: "2027-03-25T23:00:00",
+      maps: "Grand Heritage, Kiccha, Uttarakhand",
     },
   ],
+
+  // Public URL used for sharing (update after deploy if it changes)
+  siteUrl: "https://mdshamoon.github.io/wedding-card/",
 
   quote: {
     text: "And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquillity with them, and He has put love and mercy between your hearts.",
