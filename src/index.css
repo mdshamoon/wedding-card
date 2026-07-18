@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* ---- Semantic tokens → Tailwind utilities (text-ink, text-accent, border-line, …).
+        Each maps to a runtime CSS var so themes can swap them live. ---- */
+@theme {
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-muted2: var(--muted2);
+  --color-accent: var(--accent);
+  --color-accent2: var(--accent2);
+  --color-line: var(--line);
+
+  --font-script: "Great Vibes", cursive;
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-display: "Cinzel", serif;
+  --font-arabic: "Amiri", serif;
+
+  --animate-tap-pulse: tapPulse 2.2s infinite;
+}
+
+/* ---- Theme: Ivory & Gold (default) ---- */
+:root {
+  --grad-page: radial-gradient(120% 90% at 50% -10%, #fdfaf3 0%, #f5ecda 45%, #ece0c8 100%);
+  --card-bg: radial-gradient(130% 60% at 50% 0%, rgba(255, 255, 255, 0.6), transparent 60%),
+    linear-gradient(180deg, rgba(255, 252, 245, 0.9), rgba(247, 240, 225, 0.7));
+  --card-shadow: 0 20px 60px rgba(120, 90, 30, 0.18);
+  --box-bg: linear-gradient(180deg, rgba(255, 252, 245, 0.7), rgba(247, 240, 225, 0.45));
+  --cd-box-bg: linear-gradient(160deg, rgba(255, 252, 245, 0.9), rgba(247, 240, 225, 0.6));
+  --cd-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 6px 16px rgba(120, 90, 30, 0.15);
+  --vignette: radial-gradient(70% 55% at 50% 45%, transparent 60%, rgba(150, 120, 50, 0.16) 100%);
+  --fold-color: rgba(120, 90, 40, 0.16);
+  --pulse-color: rgba(154, 118, 32, 0.5);
+
+  --ink: #40331f;
+  --muted: rgba(64, 51, 31, 0.82);
+  --muted2: rgba(64, 51, 31, 0.6);
+  --accent: #9a7620;
+  --accent2: #b8912b;
+  --line: rgba(184, 145, 43, 0.42);
+  --accent-gradient: linear-gradient(135deg, #caa63f 0%, #9a7620 48%, #b8912b 74%, #d9b85a 100%);
+
+  /* A gold wax-seal gradient that stays constant across themes */
+  --seal-gold: linear-gradient(135deg, #f6e5a8 0%, #d4af37 45%, #b8912b 70%, #f0d992 100%);
+
+  /* Envelope wrapper — matches the theme. Ivory theme → cream sleeve. */
+  --env: linear-gradient(180deg, #f0e4c8 0%, #e2d0a6 100%);
+  --env-liner: linear-gradient(160deg, #d9c191 0%, #c7ad74 100%);
+  --env-gold: #a9822c;
+  --env-ink: #5a4420;
+}
+
+/* ---- Theme: Emerald & Gold ---- */
+[data-theme="emerald"] {
+  --grad-page: radial-gradient(120% 90% at 50% -10%, #14503c 0%, #0f3d2e 40%, #0a2e21 100%);
+  --card-bg: radial-gradient(130% 60% at 50% 0%, rgba(20, 80, 60, 0.55), transparent 60%),
+    linear-gradient(180deg, rgba(10, 46, 33, 0.55), rgba(10, 46, 33, 0.25));
+  --card-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  --box-bg: linear-gradient(180deg, rgba(20, 80, 60, 0.25), rgba(10, 46, 33, 0.15));
+  --cd-box-bg: linear-gradient(160deg, rgba(20, 80, 60, 0.65), rgba(10, 46, 33, 0.9));
+  --cd-box-shadow: inset 0 1px 0 rgba(246, 229, 168, 0.2), 0 6px 16px rgba(0, 0, 0, 0.35);
+  --vignette: radial-gradient(70% 55% at 50% 45%, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+  --fold-color: rgba(0, 0, 0, 0.35);
+  --pulse-color: rgba(212, 175, 55, 0.5);
+
+  --ink: #f7f0e1;
+  --muted: rgba(247, 240, 225, 0.85);
+  --muted2: rgba(247, 240, 225, 0.68);
+  --accent: #d4af37;
+  --accent2: #e9c977;
+  --line: rgba(212, 175, 55, 0.4);
+  --accent-gradient: linear-gradient(135deg, #f6e5a8 0%, #d4af37 45%, #b8912b 70%, #f0d992 100%);
+
+  /* Envelope wrapper — matches the theme. Emerald theme → emerald sleeve. */
+  --env: linear-gradient(180deg, #155a41 0%, #0f3d2e 100%);
+  --env-liner: linear-gradient(160deg, #0c3123 0%, #082419 100%);
+  --env-gold: #e0c06a;
+  --env-ink: #f3e7c9;
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+  }
+  body {
+    font-family: var(--font-serif);
+    color: var(--ink);
+    background: var(--grad-page) fixed;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background 0.5s ease, color 0.5s ease;
+  }
+  #root {
+    min-height: 100dvh;
+    width: 100%;
+  }
+}
+
+/* ---- Custom utilities ---- */
+@utility gold-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- Keyframes ---- */
+@keyframes petalFall {
+  0% {
+    opacity: 0;
+    transform: translate(0, -10vh) rotate(0deg);
+  }
+  10% {
+    opacity: 0.85;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--drift), 108vh) rotate(420deg);
+  }
+}
+
+@keyframes tapPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--pulse-color);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(212, 175, 55, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
