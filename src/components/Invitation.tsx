@@ -164,6 +164,20 @@ export function Invitation() {
           />
         </Reveal>
 
+        {/* 3D reception hall */}
+        <Reveal className="mt-4 flex justify-center">
+          <a
+            href="#/seating"
+            className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-display text-sm tracking-[0.14em] text-accent transition-transform active:scale-95"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 2 2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            {t.viewHall}
+          </a>
+        </Reveal>
+
         <Reveal>
           <p className={`mt-8 ${script} text-[1.9rem] text-accent2 ${ur ? "py-1 leading-[2.1]" : ""}`}>{t.closing}</p>
         </Reveal>

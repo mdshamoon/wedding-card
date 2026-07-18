@@ -33,6 +33,11 @@ export interface Dict {
   errGeneric: string;
   share: string;
   copied: string;
+  viewHall: string;
+  backToInvite: string;
+  hallTitle: string;
+  hallEmpty: string;
+  hallLoading: string;
   closing: string;
   quote: string;
   quoteSrc: string;
@@ -74,6 +79,11 @@ export const dict: Record<Lang, Dict> = {
     errGeneric: "Something went wrong. Please try again.",
     share: "Share this invitation",
     copied: "Link copied!",
+    viewHall: "View the Reception Hall",
+    backToInvite: "Back to Invitation",
+    hallTitle: "The Reception Hall",
+    hallEmpty: "No guests have RSVP'd yet — be the first!",
+    hallLoading: "Preparing the hall…",
     closing: "Your presence is the blessing we seek",
     quote:
       "And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquillity with them, and He has put love and mercy between your hearts.",
@@ -113,6 +123,11 @@ export const dict: Record<Lang, Dict> = {
     errGeneric: "کچھ خرابی ہوئی۔ دوبارہ کوشش کریں۔",
     share: "دعوت نامہ شیئر کریں",
     copied: "لنک کاپی ہو گیا!",
+    viewHall: "تقریب کا ہال دیکھیں",
+    backToInvite: "دعوت نامہ پر واپس",
+    hallTitle: "تقریب کا ہال",
+    hallEmpty: "ابھی تک کسی نے شرکت کی تصدیق نہیں کی — سب سے پہلے آپ ہوں!",
+    hallLoading: "ہال تیار کیا جا رہا ہے…",
     closing: "آپ کی تشریف آوری ہی ہماری سب سے بڑی سعادت ہے",
     quote:
       "اور اس کی نشانیوں میں سے یہ ہے کہ اس نے تمہارے لیے تمہی میں سے جوڑے پیدا کیے تاکہ تم اُن سے سکون پاؤ، اور اُس نے تمہارے درمیان محبت اور رحمت رکھی۔",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { WeddingCard } from "./components/WeddingCard";
 import { Invitation } from "./components/Invitation";
@@ -10,9 +10,39 @@ import { PatternBg } from "./components/Ornaments";
 import { LangProvider } from "./i18n";
 import { useTheme } from "./theme";
 
+const SeatingPage = lazy(() => import("./components/SeatingPage"));
+
+function useHashRoute() {
+  const parse = () => window.location.hash.replace(/^#\/?/, "");
+  const [route, setRoute] = useState(parse);
+  useEffect(() => {
+    const on = () => setRoute(parse());
+    window.addEventListener("hashchange", on);
+    return () => window.removeEventListener("hashchange", on);
+  }, []);
+  return route;
+}
+
 export default function App() {
   const [opened, setOpened] = useState(false);
   const { theme, setTheme } = useTheme();
+  const route = useHashRoute();
+
+  if (route === "seating") {
+    return (
+      <LangProvider>
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 grid place-items-center bg-[#43301d] font-display tracking-widest text-[#ffe8c0]">
+              Loading…
+            </div>
+          }
+        >
+          <SeatingPage />
+        </Suspense>
+      </LangProvider>
+    );
+  }
 
   return (
     <LangProvider>

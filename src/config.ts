@@ -42,6 +42,22 @@ export const wedding = {
   // Public URL used for sharing (update after deploy if it changes)
   siteUrl: "https://mdshamoon.github.io/wedding-card/",
 
+  // 3D reception-hall page. Put .glb files in public/models/ and set the
+  // filenames here (relative to public/). Leave "" to use placeholder figures.
+  seating: {
+    models: {
+      stage: "models/stage.glb",
+      groom: "models/groom.glb",
+      bride: "models/bride.glb",
+      guest: "models/guest.glb",
+    },
+    // Fine-tuning (models auto-fit to these sizes, then placed).
+    stage: { width: 20, z: 0, rotationY: Math.PI / 2 },
+    // Couple sits up on the stage: y = elevation, z = depth, gap = spacing.
+    couple: { height: 1.9, x: 0, y: 0.9, z: -3, gap: 2, rotationY: 0 },
+    guests: { height: 1.7, x: 0, y: 0.3, z: 2.5, rotationY: Math.PI },
+  },
+
   quote: {
     text: "And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquillity with them, and He has put love and mercy between your hearts.",
     source: "— Surah Ar-Rum (30:21)",
