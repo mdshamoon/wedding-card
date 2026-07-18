@@ -1,128 +1,173 @@
-import { motion, type Variants } from "framer-motion";
+import type { ReactNode } from "react";
+import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import { wedding } from "../config";
+import { useLang } from "../i18n";
+import { getGuestName } from "../lib/guest";
 import { CountdownTimer } from "./CountdownTimer";
 import { CornerFlourish, Divider, Monogram } from "./Ornaments";
 import { EventActions } from "./EventActions";
 import { RsvpForm } from "./RsvpForm";
 import { ShareButton } from "./ShareButton";
 
-const container: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.14, delayChildren: 0.15 } },
-};
-
 const item: Variants = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 0, y: 26 },
   show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
 
-export function Invitation() {
+/** Fades/slides its children in as they scroll into view. */
+function Reveal({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <main className="relative flex min-h-dvh w-full justify-center px-6 pb-20 pt-14 sm:px-8">
-      {/* Persistent full-screen frame + corner flourishes — the "card" edge */}
+    <motion.div
+      className={className}
+      variants={item}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.3 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export function Invitation() {
+  const { lang, t } = useLang();
+  const ur = lang === "ur";
+  const script = ur ? "" : "font-script";
+  const display = ur ? "" : "font-display";
+  // Nastaliq needs extra line-height + padding so descenders aren't clipped.
+  const nameCls = ur
+    ? "text-[2.3rem] sm:text-5xl leading-[2.1] py-2 gold-text"
+    : "font-script text-[3.1rem] sm:text-6xl leading-[1.15] gold-text";
+  const guest = getGuestName();
+
+  // Gentle parallax on the fixed corner florals as you scroll.
+  const { scrollY } = useScroll();
+  const yUp = useTransform(scrollY, [0, 900], [0, -50]);
+  const yDown = useTransform(scrollY, [0, 900], [0, 50]);
+
+  const eventKeys = ["nikah", "walima"] as const;
+
+  return (
+    <main className="relative flex min-h-dvh w-full justify-center px-6 pb-20 pt-16 sm:px-8">
+      {/* Persistent full-screen frame + corner flourishes (with parallax) */}
       <div className="pointer-events-none fixed inset-2.5 z-0 rounded-2xl border border-line sm:inset-4" />
-      <CornerFlourish className="pointer-events-none fixed left-3 top-3 z-0 h-14 w-14 opacity-90 sm:left-5 sm:top-5" />
-      <CornerFlourish className="pointer-events-none fixed right-3 top-3 z-0 h-14 w-14 -scale-x-100 opacity-90 sm:right-5 sm:top-5" />
-      <CornerFlourish className="pointer-events-none fixed bottom-3 left-3 z-0 h-14 w-14 -scale-y-100 opacity-90 sm:bottom-5 sm:left-5" />
-      <CornerFlourish className="pointer-events-none fixed bottom-3 right-3 z-0 h-14 w-14 -scale-100 opacity-90 sm:bottom-5 sm:right-5" />
+      <motion.div style={{ y: yUp }} className="pointer-events-none fixed left-3 top-3 z-0 sm:left-5 sm:top-5">
+        <CornerFlourish className="h-14 w-14 opacity-90" />
+      </motion.div>
+      <motion.div style={{ y: yUp }} className="pointer-events-none fixed right-3 top-3 z-0 sm:right-5 sm:top-5">
+        <CornerFlourish className="h-14 w-14 -scale-x-100 opacity-90" />
+      </motion.div>
+      <motion.div style={{ y: yDown }} className="pointer-events-none fixed bottom-3 left-3 z-0 sm:bottom-5 sm:left-5">
+        <CornerFlourish className="h-14 w-14 -scale-y-100 opacity-90" />
+      </motion.div>
+      <motion.div style={{ y: yDown }} className="pointer-events-none fixed bottom-3 right-3 z-0 sm:bottom-5 sm:right-5">
+        <CornerFlourish className="h-14 w-14 -scale-100 opacity-90" />
+      </motion.div>
 
-      <motion.div
+      <div
+        dir={t.dir}
         className="relative z-[1] w-full max-w-[34rem] text-center"
-        variants={container}
-        initial="hidden"
-        animate="show"
+        style={ur ? { fontFamily: "var(--font-urdu)" } : undefined}
       >
-        <motion.p variants={item} className="mb-6 font-arabic text-2xl leading-[1.8] text-accent2">
-          {wedding.bismillah}
-        </motion.p>
+        {guest && (
+          <Reveal>
+            <p className={`mb-3 text-lg text-accent ${ur ? "leading-loose" : "italic"}`}>{t.dear(guest)}</p>
+          </Reveal>
+        )}
 
-        <motion.p variants={item} className="text-lg italic text-muted">
-          {wedding.hostLine}
-        </motion.p>
+        <Reveal>
+          <p className="mb-6 font-arabic text-2xl leading-[1.8] text-accent2" dir="rtl">
+            {wedding.bismillah}
+          </p>
+        </Reveal>
 
-        <motion.p variants={item} className="mt-1.5 text-[0.95rem] tracking-wide text-muted2">
-          request the honour of your presence at the wedding of
-        </motion.p>
+        <Reveal>
+          <p className={`text-lg text-muted ${ur ? "leading-loose" : "italic"}`}>{t.host}</p>
+        </Reveal>
 
-        <motion.div variants={item} className="mb-1.5 mt-6 flex flex-col items-center gap-1">
-          <h1 className="font-script text-[3.1rem] leading-tight gold-text sm:text-6xl">
-            {wedding.groom}
-          </h1>
+        <Reveal>
+          <p className={`mt-1.5 text-[0.95rem] tracking-wide text-muted2 ${ur ? "leading-loose" : ""}`}>
+            {t.request}
+          </p>
+        </Reveal>
+
+        <Reveal className="mb-1.5 mt-6 flex flex-col items-center gap-1">
+          <h1 className={nameCls}>{t.names.groom}</h1>
           <span className="font-serif text-2xl italic text-accent">&amp;</span>
-          <h1 className="font-script text-[3.1rem] leading-tight gold-text sm:text-6xl">
-            {wedding.bride}
-          </h1>
-        </motion.div>
+          <h1 className={nameCls}>{t.names.bride}</h1>
+        </Reveal>
 
-        <motion.div variants={item} className="mb-1 mt-4 flex justify-center">
+        <Reveal className="mb-1 mt-4 flex justify-center">
           <Monogram size={88} />
-        </motion.div>
+        </Reveal>
 
-        <motion.div variants={item} className="my-4 flex justify-center">
+        <Reveal className="my-4 flex justify-center">
           <Divider width={240} />
-        </motion.div>
+        </Reveal>
 
-        <motion.p variants={item} className="mb-4 text-base italic text-muted">
-          Counting down to our big day
-        </motion.p>
-        <motion.div variants={item} className="mb-2">
+        <Reveal>
+          <p className={`mb-4 text-base text-muted ${ur ? "leading-loose" : "italic"}`}>{t.countdownHead}</p>
+        </Reveal>
+        <Reveal className="mb-2">
           <CountdownTimer target={wedding.countdownTarget} />
-        </motion.div>
+        </Reveal>
 
-        <motion.div variants={item} className="mb-2 mt-9 flex flex-col gap-5">
-          {wedding.events.map((e) => (
+        <Reveal className="mb-2 mt-9 flex flex-col gap-5">
+          {wedding.events.map((e, i) => (
             <div
               key={e.title}
               className="rounded-xl border border-line bg-[image:var(--box-bg)] px-4 py-5"
             >
-              <h2 className="mb-2 font-display text-lg tracking-wider gold-text">{e.title}</h2>
-              <p className="text-sm uppercase tracking-[0.2em] text-muted2">{e.day}</p>
-              <p className="my-0.5 font-display text-[1.35rem] text-ink">{e.date}</p>
-              <p className="mb-2 text-base text-muted">{e.time}</p>
-              <p className="text-[1.05rem] italic text-accent2">{e.venue}</p>
+              <h2 className={`mb-2 ${display} text-lg tracking-wider gold-text`}>{t.events[eventKeys[i]]}</h2>
+              <p className="text-sm uppercase tracking-[0.2em] text-muted2">{t.days[e.day] ?? e.day}</p>
+              <p className={`my-0.5 ${display} text-[1.35rem] text-ink`} dir="ltr">{e.date}</p>
+              <p className="mb-2 text-base text-muted" dir="ltr">{e.time}</p>
+              <p className={`text-[1.05rem] text-accent2 ${ur ? "" : "italic"}`}>{e.venue}</p>
               <p className="text-sm text-muted2">{e.address}</p>
               <EventActions event={e} maps={e.maps} />
             </div>
           ))}
-        </motion.div>
+        </Reveal>
 
-        <motion.div variants={item} className="my-5 flex justify-center">
+        <Reveal className="my-5 flex justify-center">
           <Divider width={200} />
-        </motion.div>
+        </Reveal>
 
-        <motion.blockquote variants={item} className="mx-1.5">
-          <p className="text-base italic leading-relaxed text-muted">“{wedding.quote.text}”</p>
-          <cite className="mt-2.5 block text-sm not-italic tracking-wider text-accent">
-            {wedding.quote.source}
-          </cite>
-        </motion.blockquote>
+        <Reveal className="mx-1.5">
+          <blockquote>
+            <p className={`text-base leading-relaxed text-muted ${ur ? "leading-loose" : "italic"}`}>
+              “{t.quote}”
+            </p>
+            <cite className="mt-2.5 block text-sm not-italic tracking-wider text-accent" dir="ltr">
+              {t.quoteSrc}
+            </cite>
+          </blockquote>
+        </Reveal>
 
-        <motion.div variants={item} className="my-5 flex justify-center">
+        <Reveal className="my-5 flex justify-center">
           <Divider width={200} />
-        </motion.div>
+        </Reveal>
 
         {/* RSVP */}
-        <motion.div variants={item} className="mx-auto max-w-[26rem]">
-          <h2 className="font-display text-xl tracking-[0.14em] gold-text">RSVP</h2>
-          <p className="mb-4 mt-1 text-sm italic text-muted">
-            Kindly let us know by 10 March 2027
-          </p>
+        <Reveal className="mx-auto max-w-[26rem]">
+          <h2 className={`${display} text-xl tracking-[0.14em] gold-text`}>{t.rsvp}</h2>
+          <p className={`mb-4 mt-1 text-sm text-muted ${ur ? "leading-loose" : "italic"}`}>{t.rsvpBy}</p>
           <RsvpForm />
-        </motion.div>
+        </Reveal>
 
         {/* Share */}
-        <motion.div variants={item} className="mt-8 flex justify-center">
+        <Reveal className="mt-8 flex justify-center">
           <ShareButton
             url={wedding.siteUrl}
             title={`${wedding.groom} & ${wedding.bride} — Wedding`}
             text={`You're invited to the wedding of ${wedding.groom} & ${wedding.bride}!`}
           />
-        </motion.div>
+        </Reveal>
 
-        <motion.p variants={item} className="mt-8 font-script text-[1.9rem] text-accent2">
-          {wedding.closing}
-        </motion.p>
-      </motion.div>
+        <Reveal>
+          <p className={`mt-8 ${script} text-[1.9rem] text-accent2 ${ur ? "py-1 leading-[2.1]" : ""}`}>{t.closing}</p>
+        </Reveal>
+      </div>
     </main>
   );
 }

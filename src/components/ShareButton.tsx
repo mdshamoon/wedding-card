@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useLang } from "../i18n";
 
 export function ShareButton({ url, title, text }: { url: string; title: string; text: string }) {
+  const { t } = useLang();
   const [copied, setCopied] = useState(false);
 
   const onShare = async () => {
@@ -38,7 +40,7 @@ export function ShareButton({ url, title, text }: { url: string; title: string; 
         <circle cx="18" cy="19" r="3" />
         <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" />
       </svg>
-      {copied ? "Link copied!" : "Share this invitation"}
+      {copied ? t.copied : t.share}
     </button>
   );
 }

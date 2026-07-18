@@ -5,7 +5,9 @@ import { Invitation } from "./components/Invitation";
 import { Petals } from "./components/Petals";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { BackgroundMusic } from "./components/BackgroundMusic";
+import { LangToggle } from "./components/LangToggle";
 import { PatternBg } from "./components/Ornaments";
+import { LangProvider } from "./i18n";
 import { useTheme } from "./theme";
 
 export default function App() {
@@ -13,11 +15,13 @@ export default function App() {
   const { theme, setTheme } = useTheme();
 
   return (
+    <LangProvider>
     <div className="relative">
       {/* full-screen paper texture behind everything */}
       <PatternBg id="page-pat" opacity={0.06} className="pointer-events-none fixed inset-0 z-0" />
 
       <ThemeToggle theme={theme} setTheme={setTheme} />
+      <LangToggle />
       <BackgroundMusic start={opened} />
 
       {opened && <Petals />}
@@ -49,5 +53,6 @@ export default function App() {
         )}
       </AnimatePresence>
     </div>
+    </LangProvider>
   );
 }

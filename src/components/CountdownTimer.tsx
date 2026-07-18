@@ -1,5 +1,6 @@
 import Countdown, { type CountdownRenderProps } from "react-countdown";
 import { motion } from "framer-motion";
+import { useLang } from "../i18n";
 
 function Unit({ value, label }: { value: number; label: string }) {
   const padded = String(value).padStart(2, "0");
@@ -21,32 +22,31 @@ function Sep() {
   return <span className="pt-2 font-display text-2xl text-accent/70">:</span>;
 }
 
-const renderer = ({ days, hours, minutes, seconds, completed }: CountdownRenderProps) => {
-  if (completed) {
-    return (
-      <p className="text-center font-script text-3xl gold-text">
-        The blessed day is here — Alhamdulillah!
-      </p>
-    );
-  }
-  return (
-    <motion.div
-      className="flex items-start justify-center gap-1.5 sm:gap-2.5"
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-    >
-      <Unit value={days} label="Days" />
-      <Sep />
-      <Unit value={hours} label="Hours" />
-      <Sep />
-      <Unit value={minutes} label="Minutes" />
-      <Sep />
-      <Unit value={seconds} label="Seconds" />
-    </motion.div>
-  );
-};
-
 export function CountdownTimer({ target }: { target: string }) {
+  const { t } = useLang();
+
+  const renderer = ({ days, hours, minutes, seconds, completed }: CountdownRenderProps) => {
+    if (completed) {
+      return <p className="text-center font-script text-3xl gold-text">{t.dayIsHere}</p>;
+    }
+    return (
+      <motion.div
+        className="flex items-start justify-center gap-1.5 sm:gap-2.5"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        dir="ltr"
+      >
+        <Unit value={days} label={t.units.days} />
+        <Sep />
+        <Unit value={hours} label={t.units.hours} />
+        <Sep />
+        <Unit value={minutes} label={t.units.minutes} />
+        <Sep />
+        <Unit value={seconds} label={t.units.seconds} />
+      </motion.div>
+    );
+  };
+
   return <Countdown date={new Date(target)} renderer={renderer} />;
 }

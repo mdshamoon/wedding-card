@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { directionsUrl, downloadIcs, gcalUrl, type CalEvent } from "../lib/calendar";
+import { useLang } from "../i18n";
 
 const pill =
   "inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-1.5 text-[0.7rem] uppercase tracking-[0.12em] text-accent transition-colors hover:bg-[image:var(--box-bg)]";
@@ -24,15 +25,16 @@ function CalIcon() {
 
 export function EventActions({ event, maps }: { event: CalEvent; maps: string }) {
   const [open, setOpen] = useState(false);
+  const { t } = useLang();
 
   return (
     <div className="mt-3 flex flex-col items-center gap-2">
       <div className="flex flex-wrap items-center justify-center gap-2">
         <a className={pill} href={directionsUrl(maps)} target="_blank" rel="noopener noreferrer">
-          <PinIcon /> Directions
+          <PinIcon /> {t.directions}
         </a>
         <button type="button" className={pill} onClick={() => setOpen((v) => !v)} aria-expanded={open}>
-          <CalIcon /> Add to Calendar
+          <CalIcon /> {t.addCalendar}
         </button>
       </div>
 
@@ -52,7 +54,7 @@ export function EventActions({ event, maps }: { event: CalEvent; maps: string })
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
             >
-              Google
+              {t.google}
             </a>
             <button
               type="button"
@@ -62,7 +64,7 @@ export function EventActions({ event, maps }: { event: CalEvent; maps: string })
                 setOpen(false);
               }}
             >
-              Apple / Other
+              {t.apple}
             </button>
           </motion.div>
         )}

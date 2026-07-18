@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../lib/supabase";
+import { useLang } from "../i18n";
 
 type Status = "idle" | "saving" | "done" | "error";
 
@@ -8,6 +9,7 @@ const field =
   "w-full rounded-lg border border-line bg-[image:var(--box-bg)] px-3 py-2.5 text-ink placeholder:text-muted2 focus:outline-none focus:ring-1 focus:ring-accent";
 
 export function RsvpForm() {
+  const { t } = useLang();
   const [name, setName] = useState("");
   const [attending, setAttending] = useState<boolean | null>(null);
   const [guests, setGuests] = useState(1);
@@ -18,9 +20,9 @@ export function RsvpForm() {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    if (!name.trim()) return setError("Please enter your name.");
-    if (attending === null) return setError("Please let us know if you can make it.");
-    if (!supabase) return setError("RSVP isn't configured yet — please check back soon.");
+    if (!name.trim()) return setError(t.errName);
+    if (attending === null) return setError(t.errAttend);
+    if (!supabase) return setError(t.errConfig);
 
     setStatus("saving");
     const { error: dbError } = await supabase.from("rsvps").insert({
@@ -31,7 +33,7 @@ export function RsvpForm() {
     });
     if (dbError) {
       setStatus("error");
-      setError("Something went wrong. Please try again.");
+      setError(t.errGeneric);
       return;
     }
     setStatus("done");
@@ -44,12 +46,8 @@ export function RsvpForm() {
         animate={{ opacity: 1, y: 0 }}
         className="rounded-xl border border-line bg-[image:var(--box-bg)] px-5 py-8 text-center"
       >
-        <p className="font-script text-3xl text-accent2">Thank you!</p>
-        <p className="mt-2 text-muted">
-          {attending
-            ? "We can't wait to celebrate with you, in shaa Allah."
-            : "You'll be dearly missed — thank you for letting us know."}
-        </p>
+        <p className="font-script text-3xl text-accent2">{t.thankYou}</p>
+        <p className="mt-2 text-muted">{attending ? t.thanksAccept : t.thanksDecline}</p>
       </motion.div>
     );
   }
@@ -65,7 +63,7 @@ export function RsvpForm() {
     <form onSubmit={submit} className="flex flex-col gap-3 text-left">
       <input
         className={field}
-        placeholder="Your name"
+        placeholder={t.namePh}
         value={name}
         onChange={(e) => setName(e.target.value)}
         autoComplete="name"
@@ -73,16 +71,16 @@ export function RsvpForm() {
 
       <div className="flex gap-2">
         <button type="button" className={toggle(true)} onClick={() => setAttending(true)}>
-          Joyfully accept
+          {t.accept}
         </button>
         <button type="button" className={toggle(false)} onClick={() => setAttending(false)}>
-          Regretfully decline
+          {t.decline}
         </button>
       </div>
 
       {attending && (
         <label className="flex items-center justify-between gap-3 text-muted">
-          <span className="text-sm">Number of guests (incl. you)</span>
+          <span className="text-sm">{t.guestsLabel}</span>
           <input
             type="number"
             min={1}
@@ -96,7 +94,7 @@ export function RsvpForm() {
 
       <textarea
         className={`${field} min-h-[80px] resize-y`}
-        placeholder="A note or wishes for the couple (optional)"
+        placeholder={t.notePh}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
@@ -108,7 +106,7 @@ export function RsvpForm() {
         disabled={status === "saving"}
         className="mt-1 rounded-full bg-[image:var(--accent-gradient)] px-6 py-2.5 font-display text-sm tracking-[0.14em] text-[#3a2a12] shadow-[var(--card-shadow)] transition-transform active:scale-95 disabled:opacity-60"
       >
-        {status === "saving" ? "Sending…" : "Send RSVP"}
+        {status === "saving" ? t.sending : t.send}
       </button>
     </form>
   );
