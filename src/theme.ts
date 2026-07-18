@@ -13,6 +13,12 @@ function readInitial(): Theme {
   return DEFAULT;
 }
 
+// iOS Safari tints the top status bar and bottom toolbar from this meta tag.
+const BAR_COLOR: Record<Theme, string> = {
+  cream: "#e6d6b3",
+  emerald: "#0f3d2e",
+};
+
 function apply(theme: Theme) {
   // "cream" is the default (no attribute); only set it for the alternate.
   if (theme === DEFAULT) {
@@ -20,6 +26,10 @@ function apply(theme: Theme) {
   } else {
     document.documentElement.dataset.theme = theme;
   }
+
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", BAR_COLOR[theme]);
+
   try {
     localStorage.setItem(STORAGE_KEY, theme);
   } catch {

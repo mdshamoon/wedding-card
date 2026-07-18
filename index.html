@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
-    <meta name="theme-color" content="#f5ecda" />
+    <meta name="theme-color" content="#e6d6b3" />
     <meta name="description" content="Mohd Shamoon & Alina Fatima — Wedding Invitation" />
     <title>Mohd Shamoon &amp; Alina Fatima · Wedding</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,7 +17,11 @@
       // Apply the saved theme before first paint to avoid a flash.
       try {
         var t = localStorage.getItem("wc-theme");
-        if (t === "emerald") document.documentElement.dataset.theme = "emerald";
+        if (t === "emerald") {
+          document.documentElement.dataset.theme = "emerald";
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute("content", "#0f3d2e");
+        }
       } catch (e) {}
     </script>
   </head>
