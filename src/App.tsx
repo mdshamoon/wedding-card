@@ -4,6 +4,7 @@ import { WeddingCard } from "./components/WeddingCard";
 import { Invitation } from "./components/Invitation";
 import { Petals } from "./components/Petals";
 import { ThemeToggle } from "./components/ThemeToggle";
+import { BackgroundMusic } from "./components/BackgroundMusic";
 import { PatternBg } from "./components/Ornaments";
 import { useTheme } from "./theme";
 
@@ -17,6 +18,7 @@ export default function App() {
       <PatternBg id="page-pat" opacity={0.06} className="pointer-events-none fixed inset-0 z-0" />
 
       <ThemeToggle theme={theme} setTheme={setTheme} />
+      <BackgroundMusic start={opened} />
 
       {opened && <Petals />}
 
