@@ -3,11 +3,11 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { Billboard, ContactShadows, Loader, OrbitControls, Text, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-// Warm golden-hour palette for the hall
-const BG_TOP = "#f0d9b3";
-const BG_BOTTOM = "#5a3f27";
-const FOG = "#7a5638";
-const FLOOR = "#43301d";
+// Twilight blue & gold palette for the hall
+const BG_TOP = "#c3cfe8";
+const BG_BOTTOM = "#2b3350";
+const FOG = "#3c4568";
+const FLOOR = "#2a3149";
 
 /** Vertical gradient sky as the scene background (self-contained, no HDR). */
 function Backdrop() {
@@ -218,15 +218,15 @@ export function SeatingPage() {
   const empty = !loading && (names?.length ?? 0) === 0 && !import.meta.env.DEV;
 
   return (
-    <div className="fixed inset-0 bg-[#43301d]">
+    <div className="fixed inset-0 bg-[#2a3149]">
       <Canvas shadows camera={{ position: [0, 7, 16], fov: 45 }}>
         <Backdrop />
         <fog attach="fog" args={[FOG, 24, 56]} />
 
-        <ambientLight intensity={0.7} />
-        <hemisphereLight args={["#ffe8c0", "#3a2818", 0.6]} />
+        <ambientLight intensity={0.65} />
+        <hemisphereLight args={["#cdd6ea", "#20263a", 0.6]} />
         <directionalLight position={[8, 14, 8]} intensity={1.25} color="#fff1d6" castShadow shadow-mapSize={[1024, 1024]} />
-        <spotLight position={[0, 11, -4]} angle={0.6} penumbra={0.6} intensity={1.5} color="#ffdca0" castShadow />
+        <spotLight position={[0, 11, -4]} angle={0.6} penumbra={0.6} intensity={1.6} color="#ffd98f" castShadow />
 
         <Suspense fallback={null}>
           <Couple />

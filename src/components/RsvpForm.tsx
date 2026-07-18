@@ -79,17 +79,30 @@ export function RsvpForm() {
       </div>
 
       {attending && (
-        <label className="flex items-center justify-between gap-3 text-muted">
-          <span className="text-sm">{t.guestsLabel}</span>
-          <input
-            type="number"
-            min={1}
-            max={20}
-            className={`${field} w-20 text-center`}
-            value={guests}
-            onChange={(e) => setGuests(Math.max(1, Number(e.target.value) || 1))}
-          />
-        </label>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-sm text-muted">{t.guestsLabel}</span>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Fewer guests"
+              onClick={() => setGuests((g) => Math.max(1, g - 1))}
+              className="grid h-10 w-10 place-items-center rounded-full border border-line text-2xl leading-none text-accent active:scale-95 disabled:opacity-40"
+              disabled={guests <= 1}
+            >
+              −
+            </button>
+            <span className="w-8 text-center font-display text-xl tabular-nums text-ink">{guests}</span>
+            <button
+              type="button"
+              aria-label="More guests"
+              onClick={() => setGuests((g) => Math.min(20, g + 1))}
+              className="grid h-10 w-10 place-items-center rounded-full border border-line text-2xl leading-none text-accent active:scale-95 disabled:opacity-40"
+              disabled={guests >= 20}
+            >
+              +
+            </button>
+          </div>
+        </div>
       )}
 
       <textarea

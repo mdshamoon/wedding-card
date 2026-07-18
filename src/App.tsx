@@ -33,7 +33,7 @@ export default function App() {
       <LangProvider>
         <Suspense
           fallback={
-            <div className="fixed inset-0 grid place-items-center bg-[#43301d] font-display tracking-widest text-[#ffe8c0]">
+            <div className="fixed inset-0 grid place-items-center bg-[#2a3149] font-display tracking-widest text-[#ffe8c0]">
               Loading…
             </div>
           }
