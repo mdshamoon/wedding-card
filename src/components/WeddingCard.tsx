@@ -42,8 +42,11 @@ function EnvPaper({ variant = "env" }: { variant?: "env" | "liner" }) {
   return (
     <>
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${import.meta.env.BASE_URL}texture-cream.jpg)` }}
+        className="absolute inset-0 bg-repeat"
+        style={{
+          backgroundImage: `url(${import.meta.env.BASE_URL}texture-cream.jpg)`,
+          backgroundSize: "240px",
+        }}
       />
       <div
         className={`absolute inset-0 mix-blend-multiply ${

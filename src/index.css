@@ -42,9 +42,9 @@
   /* A gold wax-seal gradient that stays constant across themes */
   --seal-gold: linear-gradient(135deg, #f6e5a8 0%, #d4af37 45%, #b8912b 70%, #f0d992 100%);
 
-  /* Envelope wrapper — matches the theme. Ivory theme → cream sleeve. */
-  --env: linear-gradient(180deg, #f0e4c8 0%, #e2d0a6 100%);
-  --env-liner: linear-gradient(160deg, #d9c191 0%, #c7ad74 100%);
+  /* Envelope wrapper — Ivory theme shows the raw paper texture, no colour wash. */
+  --env: none;
+  --env-liner: none;
   --env-gold: #a9822c;
   --env-ink: #5a4420;
 }
