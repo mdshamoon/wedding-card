@@ -42,6 +42,9 @@
 
   /* A gold wax-seal gradient that stays constant across themes */
   --seal-gold: linear-gradient(135deg, #f6e5a8 0%, #d4af37 45%, #b8912b 70%, #f0d992 100%);
+  --seal-edge: #d4af37;
+  --seal-ink: #3a2a12;
+  --seal-ink2: #5c4a24;
 
   /* Envelope wrapper — Ivory theme shows the raw paper texture, no colour wash. */
   --env: none;
@@ -82,6 +85,52 @@
 
   --bar: #0f3d2e;
 }
+
+/* ---- Occasion: Reception — blush paper, dusty rose & antique gold ---- */
+[data-occasion="reception"] {
+  --grad-page: radial-gradient(90% 55% at 50% 0%, #fffafa 0%, #fbecef 48%, #f4dce2 100%);
+  --card-bg: radial-gradient(130% 60% at 50% 0%, rgba(255,255,255,.72), transparent 60%),
+    linear-gradient(180deg, rgba(255,248,249,.92), rgba(249,229,234,.68));
+  --card-shadow: 0 22px 65px rgba(139, 70, 88, 0.18);
+  --box-bg: linear-gradient(160deg, rgba(255,255,255,.68), rgba(250,226,232,.6));
+  --cd-box-bg: linear-gradient(160deg, rgba(255,252,252,.92), rgba(247,222,229,.72));
+  --cd-box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 7px 18px rgba(139,70,88,.13);
+  --vignette: radial-gradient(70% 55% at 50% 45%, transparent 58%, rgba(151,76,95,.13) 100%);
+  --fold-color: rgba(125, 65, 80, .17);
+  --pulse-color: rgba(178, 103, 121, .45);
+  --ink: #55333b;
+  --muted: rgba(85,51,59,.82);
+  --muted2: rgba(85,51,59,.62);
+  --accent: #a45f70;
+  --accent2: #c58a96;
+  --line: rgba(164,95,112,.38);
+  --accent-gradient: linear-gradient(135deg, #d8aa9f 0%, #a45f70 46%, #bf7d8c 72%, #e1b7aa 100%);
+  --seal-gold: linear-gradient(135deg, #f5d7de 0%, #c98495 44%, #a95f72 72%, #edc4ce 100%);
+  --seal-edge: #b96f81;
+  --seal-ink: #fff5f7;
+  --seal-ink2: #f9e4e9;
+  --env: linear-gradient(180deg, #f8e1e6 0%, #efcdd5 100%);
+  --env-liner: linear-gradient(160deg, #e8bfc9 0%, #dbaab6 100%);
+  --env-gold: #a45f70;
+  --env-ink: #6d3d49;
+  --bar: #f4dce2;
+}
+
+.reception-bloom {
+  position: absolute;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  opacity: .3;
+  filter: blur(1px);
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(210,142,158,.32) 0 17%, transparent 18%),
+    radial-gradient(ellipse at 78% 48%, rgba(232,176,188,.38) 0 18%, transparent 19%),
+    radial-gradient(ellipse at 50% 78%, rgba(201,126,144,.26) 0 19%, transparent 20%),
+    radial-gradient(ellipse at 22% 48%, rgba(232,176,188,.34) 0 18%, transparent 19%);
+}
+.reception-bloom-left { left: -9rem; top: 3rem; transform: rotate(-18deg); }
+.reception-bloom-right { right: -10rem; bottom: 5rem; transform: rotate(24deg) scale(.85); }
 
 @layer base {
   * {

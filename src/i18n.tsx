@@ -7,6 +7,10 @@ export interface Dict {
   dear: (n: string) => string;
   host: string;
   request: string;
+  receptionHeading: string;
+  receptionRequest: string;
+  receptionCountdownHead: string;
+  receptionClosing: string;
   theWeddingOf: string;
   countdownHead: string;
   units: { days: string; hours: string; minutes: string; seconds: string };
@@ -53,6 +57,10 @@ export const dict: Record<Lang, Dict> = {
     dear: (n: string) => `Dear ${n},`,
     host: "Together with their beloved families",
     request: "request the honour of your presence at the wedding of",
+    receptionHeading: "Wedding Reception",
+    receptionRequest: "request the pleasure of your company as they celebrate the wedding of",
+    receptionCountdownHead: "Counting down to an evening of celebration",
+    receptionClosing: "Come for the celebration, stay for the memories",
     theWeddingOf: "The Wedding of",
     countdownHead: "Counting down to our big day",
     units: { days: "Days", hours: "Hours", minutes: "Minutes", seconds: "Seconds" },
@@ -97,6 +105,10 @@ export const dict: Record<Lang, Dict> = {
     dear: (n: string) => `محترم ${n}،`,
     host: "اپنے پیارے خاندانوں کے ہمراہ",
     request: "آپ کو اپنی شادی کی تقریب میں تشریف آوری کی پُرخلوص دعوت دیتے ہیں",
+    receptionHeading: "دعوتِ ولیمہ",
+    receptionRequest: "آپ کو تقریبِ ولیمہ میں شرکت کی پُرخلوص دعوت دیتے ہیں",
+    receptionCountdownHead: "جشن کی حسین شام کا انتظار",
+    receptionClosing: "آپ کی شرکت ہماری خوشیوں کو دوبالا کر دے گی",
     theWeddingOf: "شادی خانہ آبادی",
     countdownHead: "ہمارے خاص دن کی اُلٹی گنتی جاری ہے",
     units: { days: "دن", hours: "گھنٹے", minutes: "منٹ", seconds: "سیکنڈ" },

@@ -266,11 +266,11 @@ export function WeddingCard({ onOpened }: { onOpened: () => void }) {
             {/* wax seal at the V point — rides up with the flap */}
             <div
               className="absolute bottom-0 left-1/2 z-40 flex -translate-x-1/2 translate-y-1/2 items-center justify-center rounded-full border-2 bg-[image:var(--seal-gold)] shadow-[0_6px_16px_rgba(0,0,0,0.4)] [backface-visibility:hidden]"
-              style={{ width: SEAL, height: SEAL, borderColor: "#d4af37" }}
+              style={{ width: SEAL, height: SEAL, borderColor: "var(--seal-edge)" }}
             >
               <div
                 className="grid place-items-center"
-                style={{ ["--accent"]: "#3a2a12", ["--accent2"]: "#5c4a24" } as CSSProperties}
+                style={{ ["--accent"]: "var(--seal-ink)", ["--accent2"]: "var(--seal-ink2)" } as CSSProperties}
               >
                 <Monogram size={SEAL - 14} />
               </div>

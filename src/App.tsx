@@ -9,6 +9,7 @@ import { LangToggle } from "./components/LangToggle";
 import { PatternBg } from "./components/Ornaments";
 import { LangProvider } from "./i18n";
 import { useTheme } from "./theme";
+import type { InvitationVariant } from "./variants";
 
 const SeatingPage = lazy(() => import("./components/SeatingPage"));
 
@@ -27,6 +28,16 @@ export default function App() {
   const [opened, setOpened] = useState(false);
   const { theme, setTheme } = useTheme();
   const route = useHashRoute();
+  const variant: InvitationVariant = route === "reception" ? "reception" : "wedding";
+
+  useEffect(() => {
+    document.documentElement.dataset.occasion = variant;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (variant === "reception") meta?.setAttribute("content", "#f4dce2");
+    return () => {
+      delete document.documentElement.dataset.occasion;
+    };
+  }, [variant, theme]);
 
   if (route === "seating") {
     return (
@@ -50,15 +61,15 @@ export default function App() {
       {/* full-screen paper texture behind everything */}
       <PatternBg id="page-pat" opacity={0.06} className="pointer-events-none fixed inset-0 z-0" />
 
-      <ThemeToggle theme={theme} setTheme={setTheme} />
+      {variant === "wedding" && <ThemeToggle theme={theme} setTheme={setTheme} />}
       <LangToggle />
       <BackgroundMusic start={opened} />
 
       {opened && <Petals />}
 
-      <Invitation />
+      <Invitation key={variant} variant={variant} />
 
-      <WeddingCard onOpened={() => setOpened(true)} />
+      <WeddingCard key={variant} onOpened={() => setOpened(true)} />
 
       <AnimatePresence>
         {opened && (

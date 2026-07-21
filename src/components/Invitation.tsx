@@ -8,6 +8,7 @@ import { CornerFlourish, Divider, Monogram } from "./Ornaments";
 import { EventActions } from "./EventActions";
 import { RsvpForm } from "./RsvpForm";
 import { ShareButton } from "./ShareButton";
+import { invitationVariants, type InvitationVariant } from "../variants";
 
 const item: Variants = {
   hidden: { opacity: 0, y: 26 },
@@ -29,7 +30,24 @@ function Reveal({ children, className }: { children: ReactNode; className?: stri
   );
 }
 
-export function Invitation() {
+function ReceptionBotanicals() {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden>
+      <div className="reception-bloom reception-bloom-left" />
+      <div className="reception-bloom reception-bloom-right" />
+      <svg className="absolute -left-20 top-[18%] h-80 w-64 -rotate-12 opacity-40" viewBox="0 0 220 320" fill="none">
+        <path d="M35 310C65 240 81 166 103 42" stroke="var(--accent)" strokeWidth="1.5" />
+        <path d="M76 205c-47-4-55-35-51-63 34 10 51 30 51 63ZM92 144c37-10 47-39 39-63-28 13-42 34-39 63ZM58 255c34-4 51-27 50-54-29 8-47 26-50 54Z" fill="var(--accent2)" fillOpacity=".13" stroke="var(--accent)" strokeWidth="1.2" />
+      </svg>
+      <svg className="absolute -right-20 bottom-[8%] h-80 w-64 rotate-[168deg] opacity-35" viewBox="0 0 220 320" fill="none">
+        <path d="M35 310C65 240 81 166 103 42" stroke="var(--accent)" strokeWidth="1.5" />
+        <path d="M76 205c-47-4-55-35-51-63 34 10 51 30 51 63ZM92 144c37-10 47-39 39-63-28 13-42 34-39 63ZM58 255c34-4 51-27 50-54-29 8-47 26-50 54Z" fill="var(--accent2)" fillOpacity=".13" stroke="var(--accent)" strokeWidth="1.2" />
+      </svg>
+    </div>
+  );
+}
+
+export function Invitation({ variant = "wedding" }: { variant?: InvitationVariant }) {
   const { lang, t } = useLang();
   const ur = lang === "ur";
   const script = ur ? "" : "font-script";
@@ -45,10 +63,14 @@ export function Invitation() {
   const yUp = useTransform(scrollY, [0, 900], [0, -50]);
   const yDown = useTransform(scrollY, [0, 900], [0, 50]);
 
+  const variantConfig = invitationVariants[variant];
+  const reception = variant === "reception";
   const eventKeys = ["nikah", "walima"] as const;
+  const events = variantConfig.eventIndexes.map((index) => ({ event: wedding.events[index], index }));
 
   return (
     <main className="relative flex min-h-dvh w-full justify-center px-6 pb-20 pt-16 sm:px-8">
+      {reception && <ReceptionBotanicals />}
       {/* Persistent full-screen frame + corner flourishes (with parallax) */}
       <div className="pointer-events-none fixed inset-2.5 z-0 rounded-2xl border border-line sm:inset-4" />
       <motion.div style={{ y: yUp }} className="pointer-events-none fixed left-3 top-3 z-0 sm:left-5 sm:top-5">
@@ -85,9 +107,15 @@ export function Invitation() {
           <p className={`text-lg text-muted ${ur ? "leading-loose" : "italic"}`}>{t.host}</p>
         </Reveal>
 
+        {reception && (
+          <Reveal>
+            <p className={`${display} mt-5 text-xs uppercase tracking-[0.34em] text-accent`}>{t.receptionHeading}</p>
+          </Reveal>
+        )}
+
         <Reveal>
           <p className={`mt-1.5 text-[0.95rem] tracking-wide text-muted2 ${ur ? "leading-loose" : ""}`}>
-            {t.request}
+            {reception ? t.receptionRequest : t.request}
           </p>
         </Reveal>
 
@@ -106,19 +134,19 @@ export function Invitation() {
         </Reveal>
 
         <Reveal>
-          <p className={`mb-4 text-base text-muted ${ur ? "leading-loose" : "italic"}`}>{t.countdownHead}</p>
+          <p className={`mb-4 text-base text-muted ${ur ? "leading-loose" : "italic"}`}>{reception ? t.receptionCountdownHead : t.countdownHead}</p>
         </Reveal>
         <Reveal className="mb-2">
-          <CountdownTimer target={wedding.countdownTarget} />
+          <CountdownTimer target={variantConfig.countdownTarget} />
         </Reveal>
 
         <Reveal className="mb-2 mt-9 flex flex-col gap-5">
-          {wedding.events.map((e, i) => (
+          {events.map(({ event: e, index }) => (
             <div
               key={e.title}
               className="rounded-xl border border-line bg-[image:var(--box-bg)] px-4 py-5"
             >
-              <h2 className={`mb-2 ${display} text-lg tracking-wider gold-text`}>{t.events[eventKeys[i]]}</h2>
+              <h2 className={`mb-2 ${display} text-lg tracking-wider gold-text`}>{t.events[eventKeys[index]]}</h2>
               <p className="text-sm uppercase tracking-[0.2em] text-muted2">{t.days[e.day] ?? e.day}</p>
               <p className={`my-0.5 ${display} text-[1.35rem] text-ink`} dir="ltr">{e.date}</p>
               <p className="mb-2 text-base text-muted" dir="ltr">{e.time}</p>
@@ -158,9 +186,9 @@ export function Invitation() {
         {/* Share */}
         <Reveal className="mt-8 flex justify-center">
           <ShareButton
-            url={wedding.siteUrl}
-            title={`${wedding.groom} & ${wedding.bride} — Wedding`}
-            text={`You're invited to the wedding of ${wedding.groom} & ${wedding.bride}!`}
+            url={`${wedding.siteUrl}${variantConfig.sharePath}`}
+            title={`${wedding.groom} & ${wedding.bride} — ${reception ? "Reception" : "Wedding"}`}
+            text={`You're invited to the ${reception ? "wedding reception" : "wedding"} of ${wedding.groom} & ${wedding.bride}!`}
           />
         </Reveal>
 
@@ -179,7 +207,7 @@ export function Invitation() {
         </Reveal>
 
         <Reveal>
-          <p className={`mt-8 ${script} text-[1.9rem] text-accent2 ${ur ? "py-1 leading-[2.1]" : ""}`}>{t.closing}</p>
+          <p className={`mt-8 ${script} text-[1.9rem] text-accent2 ${ur ? "py-1 leading-[2.1]" : ""}`}>{reception ? t.receptionClosing : t.closing}</p>
         </Reveal>
       </div>
     </main>
