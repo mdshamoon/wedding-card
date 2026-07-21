@@ -28,16 +28,18 @@ export default function App() {
   const [opened, setOpened] = useState(false);
   const { theme, setTheme } = useTheme();
   const route = useHashRoute();
-  const variant: InvitationVariant = route === "reception" ? "reception" : "wedding";
+  const variant: InvitationVariant = route === "reception" || route === "reception-pink" ? "reception" : "wedding";
+  const occasion = route === "reception-pink" ? "reception-pink" : variant;
 
   useEffect(() => {
-    document.documentElement.dataset.occasion = variant;
+    document.documentElement.dataset.occasion = occasion;
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (variant === "reception") meta?.setAttribute("content", "#f4dce2");
+    if (occasion === "reception") meta?.setAttribute("content", "#ffffff");
+    if (occasion === "reception-pink") meta?.setAttribute("content", "#f4dce2");
     return () => {
       delete document.documentElement.dataset.occasion;
     };
-  }, [variant, theme]);
+  }, [occasion, theme]);
 
   if (route === "seating") {
     return (

@@ -87,8 +87,9 @@
 }
 
 /* ---- Occasion: Reception — blush paper, dusty rose & antique gold ---- */
-[data-occasion="reception"] {
-  --grad-page: radial-gradient(90% 55% at 50% 0%, #fffafa 0%, #fbecef 48%, #f4dce2 100%);
+[data-occasion="reception"],
+[data-occasion="reception-pink"] {
+  --grad-page: linear-gradient(#ffffff, #ffffff);
   --card-bg: radial-gradient(130% 60% at 50% 0%, rgba(255,255,255,.72), transparent 60%),
     linear-gradient(180deg, rgba(255,248,249,.92), rgba(249,229,234,.68));
   --card-shadow: 0 22px 65px rgba(139, 70, 88, 0.18);
@@ -113,6 +114,11 @@
   --env-liner: linear-gradient(160deg, #e8bfc9 0%, #dbaab6 100%);
   --env-gold: #a45f70;
   --env-ink: #6d3d49;
+  --bar: #ffffff;
+}
+
+[data-occasion="reception-pink"] {
+  --grad-page: radial-gradient(90% 55% at 50% 0%, #fffafa 0%, #fbecef 48%, #f4dce2 100%);
   --bar: #f4dce2;
 }
 
