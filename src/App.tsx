@@ -49,6 +49,25 @@ export default function App() {
 
   useLayoutEffect(() => {
     document.documentElement.dataset.occasion = occasion;
+
+    // Hash fragments are not sent to WhatsApp/social crawlers. Once an
+    // occasion has loaded, keep the browser address on its real static path so
+    // copying the URL preserves that occasion's Open Graph preview.
+    const canonicalSegment =
+      occasion === "reception-pink"
+        ? "reception/"
+        : occasion === "reception"
+          ? "reception-classic/"
+          : occasion === "nikah"
+            ? "nikah/"
+            : null;
+    if (canonicalSegment) {
+      const canonicalPath = `${import.meta.env.BASE_URL}${canonicalSegment}`.replace(/\/{2,}/g, "/");
+      if (window.location.pathname !== canonicalPath || window.location.hash) {
+        window.history.replaceState(window.history.state, "", `${canonicalPath}${window.location.search}`);
+      }
+    }
+
     const meta = document.querySelector('meta[name="theme-color"]');
     const barColor =
       occasion === "blank"
@@ -101,13 +120,13 @@ export default function App() {
       {opened && <Petals />}
 
       <Invitation
-        key={occasion}
+        key={`invitation-${occasion}`}
         variant={variant}
         pinkReception={occasion === "reception-pink"}
-        sharePath={occasion === "reception" ? "reception-classic/" : occasion === "reception-pink" ? "reception/" : `#/${route}`}
+        sharePath={occasion === "reception" ? "reception-classic/" : undefined}
       />
 
-      <WeddingCard key={variant} variant={variant} onOpened={() => setOpened(true)} />
+      <WeddingCard key={`card-${occasion}`} variant={variant} onOpened={() => setOpened(true)} />
 
       <AnimatePresence>
         {opened && (

@@ -224,7 +224,7 @@ export function Invitation({
         {/* 3D reception hall */}
         <Reveal className="mt-4 flex justify-center">
           <a
-            href="#/seating"
+            href={`${import.meta.env.BASE_URL}#/seating`}
             className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 font-display text-sm tracking-[0.14em] text-accent transition-transform active:scale-95"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
