@@ -9,6 +9,6 @@ export const invitationVariants = {
   reception: {
     eventIndexes: [1],
     countdownTarget: "2027-03-25T19:00:00",
-    sharePath: "#/reception",
+    sharePath: "reception/",
   },
 } as const;

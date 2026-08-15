@@ -96,7 +96,7 @@ export default function App() {
         key={occasion}
         variant={variant}
         pinkReception={occasion === "reception-pink"}
-        sharePath={occasion === "reception" ? "#/reception-classic" : `#/${route}`}
+        sharePath={occasion === "reception" ? "reception-classic/" : occasion === "reception-pink" ? "reception/" : `#/${route}`}
       />
 
       <WeddingCard key={variant} onOpened={() => setOpened(true)} />
