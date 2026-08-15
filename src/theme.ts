@@ -27,8 +27,13 @@ function apply(theme: Theme) {
     document.documentElement.dataset.theme = theme;
   }
 
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", BAR_COLOR[theme]);
+  // Reception routes own their browser-bar color. Do not briefly overwrite it
+  // with the saved wedding theme while React mounts.
+  const occasion = document.documentElement.dataset.occasion;
+  if (!occasion || occasion === "wedding") {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", BAR_COLOR[theme]);
+  }
 
   try {
     localStorage.setItem(STORAGE_KEY, theme);

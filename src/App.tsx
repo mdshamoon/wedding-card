@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { WeddingCard } from "./components/WeddingCard";
 import { Invitation } from "./components/Invitation";
@@ -28,20 +28,43 @@ export default function App() {
   const [opened, setOpened] = useState(false);
   const { theme, setTheme } = useTheme();
   const route = useHashRoute();
-  const variant: InvitationVariant = route === "reception" || route === "reception-pink" ? "reception" : "wedding";
-  const occasion = route === "reception-pink" ? "reception-pink" : variant;
+  const occasion =
+    route === "wedding"
+      ? "wedding"
+      : route === "reception"
+        ? "reception-pink"
+        : route === "reception-classic"
+          ? "reception"
+          : route === "seating"
+            ? "seating"
+            : "blank";
+  const variant: InvitationVariant =
+    occasion === "reception" || occasion === "reception-pink" ? "reception" : "wedding";
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.dataset.occasion = occasion;
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (occasion === "reception") meta?.setAttribute("content", "#ffffff");
-    if (occasion === "reception-pink") meta?.setAttribute("content", "#f4dce2");
+    const barColor =
+      occasion === "blank"
+        ? "#ffffff"
+        : occasion === "seating"
+          ? "#2a3149"
+          : occasion === "reception"
+            ? "#ffffff"
+        : occasion === "reception-pink"
+          ? "#f4dce2"
+          : theme === "emerald"
+            ? "#0f3d2e"
+            : "#e6d6b3";
+    meta?.setAttribute("content", barColor);
     return () => {
       delete document.documentElement.dataset.occasion;
     };
   }, [occasion, theme]);
 
-  if (route === "seating") {
+  if (occasion === "blank") return null;
+
+  if (occasion === "seating") {
     return (
       <LangProvider>
         <Suspense
@@ -69,7 +92,12 @@ export default function App() {
 
       {opened && <Petals />}
 
-      <Invitation key={occasion} variant={variant} pinkReception={occasion === "reception-pink"} />
+      <Invitation
+        key={occasion}
+        variant={variant}
+        pinkReception={occasion === "reception-pink"}
+        sharePath={occasion === "reception" ? "#/reception-classic" : `#/${route}`}
+      />
 
       <WeddingCard key={variant} onOpened={() => setOpened(true)} />
 

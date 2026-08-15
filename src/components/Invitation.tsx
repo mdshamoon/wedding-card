@@ -51,9 +51,11 @@ function ReceptionBotanicals() {
 export function Invitation({
   variant = "wedding",
   pinkReception = false,
+  sharePath,
 }: {
   variant?: InvitationVariant;
   pinkReception?: boolean;
+  sharePath?: string;
 }) {
   const { lang, t } = useLang();
   const ur = lang === "ur";
@@ -204,7 +206,7 @@ export function Invitation({
         {/* Share */}
         <Reveal className="mt-8 flex justify-center">
           <ShareButton
-            url={`${wedding.siteUrl}${variantConfig.sharePath}`}
+            url={`${wedding.siteUrl}${sharePath ?? variantConfig.sharePath}`}
             title={`${wedding.groom} & ${wedding.bride} — ${reception ? "Reception" : "Wedding"}`}
             text={`You're invited to the ${reception ? "wedding reception" : "wedding"} of ${wedding.groom} & ${wedding.bride}!`}
           />

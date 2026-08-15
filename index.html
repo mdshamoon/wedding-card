@@ -2,9 +2,43 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1" />
-    <meta name="theme-color" content="#e6d6b3" />
+    <script>
+      // Create the route-specific browser-bar color before Safari can sample a
+      // default value. This keeps both iPhone bars pink after a hard refresh.
+      (function () {
+        var route = window.location.hash.replace(/^#\/?/, "");
+        var barColor = "#ffffff";
+
+        if (route === "reception") {
+          document.documentElement.dataset.occasion = "reception-pink";
+          barColor = "#f4dce2";
+        } else if (route === "reception-classic") {
+          document.documentElement.dataset.occasion = "reception";
+          barColor = "#ffffff";
+        } else if (route === "wedding") {
+          document.documentElement.dataset.occasion = "wedding";
+          barColor = "#e6d6b3";
+          try {
+            if (localStorage.getItem("wc-theme") === "emerald") {
+              document.documentElement.dataset.theme = "emerald";
+              barColor = "#0f3d2e";
+            }
+          } catch (e) {}
+        } else if (route === "seating") {
+          document.documentElement.dataset.occasion = "seating";
+          barColor = "#2a3149";
+        } else {
+          document.documentElement.dataset.occasion = "blank";
+        }
+
+        var meta = document.createElement("meta");
+        meta.name = "theme-color";
+        meta.content = barColor;
+        document.head.appendChild(meta);
+      })();
+    </script>
     <meta name="description" content="Mohd Shamoon & Alina Fatima — Wedding Invitation. Nikah 24 March & Reception 25 March 2027." />
     <title>Mohd Shamoon &amp; Alina Fatima · Wedding</title>
 
@@ -36,17 +70,6 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Amiri:wght@400;700&family=Cinzel:wght@400;500;600&family=Noto+Nastaliq+Urdu:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <script>
-      // Apply the saved theme before first paint to avoid a flash.
-      try {
-        var t = localStorage.getItem("wc-theme");
-        if (t === "emerald") {
-          document.documentElement.dataset.theme = "emerald";
-          var m = document.querySelector('meta[name="theme-color"]');
-          if (m) m.setAttribute("content", "#0f3d2e");
-        }
-      } catch (e) {}
-    </script>
   </head>
   <body>
     <div id="root"></div>

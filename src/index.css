@@ -122,6 +122,11 @@
   --bar: #f4dce2;
 }
 
+[data-occasion="blank"] {
+  --grad-page: linear-gradient(#ffffff, #ffffff);
+  --bar: #ffffff;
+}
+
 .reception-bloom {
   position: absolute;
   width: 18rem;
