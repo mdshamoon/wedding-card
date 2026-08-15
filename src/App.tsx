@@ -31,15 +31,21 @@ export default function App() {
   const occasion =
     route === "wedding"
       ? "wedding"
-      : route === "reception"
-        ? "reception-pink"
-        : route === "reception-classic"
-          ? "reception"
-          : route === "seating"
-            ? "seating"
-            : "blank";
+      : route === "nikah"
+        ? "nikah"
+        : route === "reception"
+          ? "reception-pink"
+          : route === "reception-classic"
+            ? "reception"
+            : route === "seating"
+              ? "seating"
+              : "blank";
   const variant: InvitationVariant =
-    occasion === "reception" || occasion === "reception-pink" ? "reception" : "wedding";
+    occasion === "reception" || occasion === "reception-pink"
+      ? "reception"
+      : occasion === "nikah"
+        ? "nikah"
+        : "wedding";
 
   useLayoutEffect(() => {
     document.documentElement.dataset.occasion = occasion;
@@ -51,11 +57,13 @@ export default function App() {
           ? "#2a3149"
           : occasion === "reception"
             ? "#ffffff"
-        : occasion === "reception-pink"
-          ? "#f4dce2"
-          : theme === "emerald"
-            ? "#0f3d2e"
-            : "#e6d6b3";
+            : occasion === "reception-pink"
+              ? "#f4dce2"
+              : occasion === "nikah"
+                ? "#edcbc8"
+                : theme === "emerald"
+                  ? "#0f3d2e"
+                  : "#e6d6b3";
     meta?.setAttribute("content", barColor);
     return () => {
       delete document.documentElement.dataset.occasion;
@@ -86,7 +94,7 @@ export default function App() {
       {/* full-screen paper texture behind everything */}
       <PatternBg id="page-pat" opacity={0.06} className="pointer-events-none fixed inset-0 z-0" />
 
-      {variant === "wedding" && <ThemeToggle theme={theme} setTheme={setTheme} />}
+      {occasion === "wedding" && <ThemeToggle theme={theme} setTheme={setTheme} />}
       <LangToggle />
       <BackgroundMusic start={opened} />
 
@@ -99,7 +107,7 @@ export default function App() {
         sharePath={occasion === "reception" ? "reception-classic/" : occasion === "reception-pink" ? "reception/" : `#/${route}`}
       />
 
-      <WeddingCard key={variant} onOpened={() => setOpened(true)} />
+      <WeddingCard key={variant} variant={variant} onOpened={() => setOpened(true)} />
 
       <AnimatePresence>
         {opened && (

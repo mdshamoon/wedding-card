@@ -27,7 +27,7 @@ function apply(theme: Theme) {
     document.documentElement.dataset.theme = theme;
   }
 
-  // Reception routes own their browser-bar color. Do not briefly overwrite it
+  // Occasion routes own their browser-bar color. Do not briefly overwrite it
   // with the saved wedding theme while React mounts.
   const occasion = document.documentElement.dataset.occasion;
   if (!occasion || occasion === "wedding") {

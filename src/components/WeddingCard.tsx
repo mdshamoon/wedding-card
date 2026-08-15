@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion, type Transition } from "framer-motion";
 import { CornerFlourish, Monogram, PatternBg } from "./Ornaments";
+import type { InvitationVariant } from "../variants";
 
 const CHARGE_MS = 1200; // light traces around the seal
 const SURGE_MS = 650; // light runs out along the V edges
@@ -141,7 +142,7 @@ function EnvPaper({ variant = "env" }: { variant?: "env" | "liner" }) {
         }}
       />
       <div
-        className={`absolute inset-0 mix-blend-multiply ${
+        className={`envelope-tint absolute inset-0 mix-blend-multiply ${
           variant === "liner" ? "bg-[image:var(--env-liner)]" : "bg-[image:var(--env)]"
         }`}
       />
@@ -151,9 +152,16 @@ function EnvPaper({ variant = "env" }: { variant?: "env" | "liner" }) {
 
 type Phase = "closed" | "charging" | "surge" | "opening";
 
-export function WeddingCard({ onOpened }: { onOpened: () => void }) {
+export function WeddingCard({
+  onOpened,
+  variant = "wedding",
+}: {
+  onOpened: () => void;
+  variant?: InvitationVariant;
+}) {
   const [phase, setPhase] = useState<Phase>("closed");
   const [gone, setGone] = useState(false);
+  const nikah = variant === "nikah";
 
   const charging = phase === "charging";
   const surge = phase === "surge";
@@ -186,7 +194,7 @@ export function WeddingCard({ onOpened }: { onOpened: () => void }) {
           onClick={start}
           role="button"
           tabIndex={0}
-          aria-label="Tap to open the invitation"
+          aria-label={nikah ? "Tap to open the Nikah invitation" : "Tap to open the invitation"}
           onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && start()}
         >
           {/* Bottom sleeve — plain envelope colour; slides down to reveal the card */}
@@ -198,7 +206,7 @@ export function WeddingCard({ onOpened }: { onOpened: () => void }) {
             transition={{ duration: SLIDE_MS / 1000, delay: opening ? SLIDE_DELAY / 1000 : 0, ease }}
           >
             <EnvPaper />
-            <PatternBg id="env-lower-pat" opacity={0.1} className="absolute inset-0" />
+            <PatternBg id="env-lower-pat" opacity={0.1} className="envelope-pattern absolute inset-0" />
             {/* gold V edge along the sleeve's top — glows when lit */}
             <svg
               className="pointer-events-none absolute inset-0 h-full w-full"
@@ -221,7 +229,7 @@ export function WeddingCard({ onOpened }: { onOpened: () => void }) {
               className="absolute bottom-[13vh] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap font-serif text-[0.8rem] uppercase tracking-[0.28em]"
               style={{ color: "var(--env-ink)", textShadow: "0 1px 2px rgba(0,0,0,0.18)" }}
             >
-              Mohd Shamoon &amp; Alina Fatima
+              {nikah ? "Alina Fatima & Mohd Shamoon" : "Mohd Shamoon & Alina Fatima"}
             </span>
           </motion.div>
 
@@ -236,7 +244,7 @@ export function WeddingCard({ onOpened }: { onOpened: () => void }) {
             {/* front */}
             <div className={`absolute inset-0 isolate overflow-hidden [backface-visibility:hidden] ${TRI}`}>
               <EnvPaper />
-              <PatternBg id="env-flap-pat" opacity={0.1} className="absolute inset-0" />
+              <PatternBg id="env-flap-pat" opacity={0.1} className="envelope-pattern absolute inset-0" />
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),transparent_30%,rgba(0,0,0,0.18))]" />
               <TriBorder glow={lit} />
               <CornerFlourish className="absolute left-3 top-3 h-14 w-14" />
@@ -246,7 +254,7 @@ export function WeddingCard({ onOpened }: { onOpened: () => void }) {
             {/* underside liner */}
             <div className={`absolute inset-0 isolate overflow-hidden [backface-visibility:hidden] [transform:rotateX(180deg)] ${TRI}`}>
               <EnvPaper variant="liner" />
-              <PatternBg id="env-flap-back" opacity={0.18} className="absolute inset-0" />
+              <PatternBg id="env-flap-back" opacity={0.18} className="envelope-pattern absolute inset-0" />
               <TriBorder />
             </div>
 
@@ -293,7 +301,7 @@ export function WeddingCard({ onOpened }: { onOpened: () => void }) {
                 className="h-3 w-3 animate-tap-pulse rounded-full border-[1.5px]"
                 style={{ borderColor: "var(--env-gold)" }}
               />
-              Tap to open
+              {nikah ? "Tap to open Nikah" : "Tap to open"}
             </motion.div>
           )}
         </motion.div>

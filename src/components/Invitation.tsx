@@ -79,6 +79,12 @@ export function Invitation({
 
   const variantConfig = invitationVariants[variant];
   const reception = variant === "reception";
+  const nikah = variant === "nikah";
+  const firstName = nikah ? t.names.bride : t.names.groom;
+  const firstParent = nikah ? t.names.brideParent : t.names.groomParent;
+  const secondName = nikah ? t.names.groom : t.names.bride;
+  const secondParent = nikah ? t.names.groomParent : t.names.brideParent;
+  const occasionLabel = reception ? "Reception" : nikah ? "Nikah" : "Wedding";
   const eventKeys = ["nikah", "walima"] as const;
   const events = variantConfig.eventIndexes.map((index) => ({ event: wedding.events[index], index }));
 
@@ -134,11 +140,11 @@ export function Invitation({
         </Reveal>
 
         <Reveal className="mb-1.5 mt-6 flex flex-col items-center gap-1">
-          <h1 className={nameCls}>{t.names.groom}</h1>
-          <p className={parentCls}>{t.names.groomParent}</p>
+          <h1 className={nameCls}>{firstName}</h1>
+          <p className={parentCls}>{firstParent}</p>
           <span className="font-serif text-2xl italic text-accent">&amp;</span>
-          <h1 className={nameCls}>{t.names.bride}</h1>
-          <p className={parentCls}>{t.names.brideParent}</p>
+          <h1 className={nameCls}>{secondName}</h1>
+          <p className={parentCls}>{secondParent}</p>
         </Reveal>
 
         {pinkReception && (
@@ -174,7 +180,7 @@ export function Invitation({
                 <p className="text-sm text-muted2">{e.address}</p>
                 <EventActions event={e} maps={e.maps} />
               </div>
-              {variant === "wedding" && index === 0 && <NikahCoupleScene />}
+              {variant !== "reception" && index === 0 && <NikahCoupleScene />}
               {variant === "wedding" && index === 1 && <ReceptionDanceScene />}
             </Fragment>
           ))}
@@ -210,8 +216,8 @@ export function Invitation({
         <Reveal className="mt-8 flex justify-center">
           <ShareButton
             url={`${wedding.siteUrl}${sharePath ?? variantConfig.sharePath}`}
-            title={`${wedding.groom} & ${wedding.bride} — ${reception ? "Reception" : "Wedding"}`}
-            text={`You're invited to the ${reception ? "wedding reception" : "wedding"} of ${wedding.groom} & ${wedding.bride}!`}
+            title={`${wedding.groom} & ${wedding.bride} — ${occasionLabel}`}
+            text={`You're invited to the ${reception ? "wedding reception" : nikah ? "Nikah" : "wedding"} of ${wedding.groom} & ${wedding.bride}!`}
           />
         </Reveal>
 

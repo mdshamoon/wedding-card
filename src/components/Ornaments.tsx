@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 // Hand-drawn gold SVG ornaments — no external images, so nothing can break.
 
 type SvgProps = React.SVGProps<SVGSVGElement>;
@@ -52,15 +54,17 @@ export function Divider({ width = 220, ...props }: SvgProps & { width?: number }
 
 /** Monogram medallion — the initials S & A inside a crescent-and-ring seal. */
 export function Monogram({ size = 96, ...props }: SvgProps & { size?: number }) {
+  const gradientId = `mono-gold-${useId().replace(/:/g, "")}`;
+
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} fill="none" aria-hidden {...props}>
-      {goldDefs("mono-gold")}
-      <circle cx="50" cy="50" r="46" stroke="url(#mono-gold)" strokeWidth="1.4" />
-      <circle cx="50" cy="50" r="40" stroke="url(#mono-gold)" strokeWidth="0.8" opacity="0.6" />
+      {goldDefs(gradientId)}
+      <circle cx="50" cy="50" r="46" stroke={`url(#${gradientId})`} strokeWidth="1.4" />
+      <circle cx="50" cy="50" r="40" stroke={`url(#${gradientId})`} strokeWidth="0.8" opacity="0.6" />
       {/* crescent */}
       <path
         d="M64 22 a 32 32 0 1 0 0 56 a 26 26 0 1 1 0 -56 z"
-        fill="url(#mono-gold)"
+        fill={`url(#${gradientId})`}
         opacity="0.14"
       />
       <text
@@ -69,7 +73,7 @@ export function Monogram({ size = 96, ...props }: SvgProps & { size?: number }) 
         textAnchor="middle"
         fontFamily="Great Vibes, cursive"
         fontSize="34"
-        fill="url(#mono-gold)"
+        fill={`url(#${gradientId})`}
       >
         S&amp;A
       </text>
