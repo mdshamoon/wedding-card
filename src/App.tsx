@@ -69,7 +69,7 @@ export default function App() {
 
       {opened && <Petals />}
 
-      <Invitation key={variant} variant={variant} />
+      <Invitation key={occasion} variant={variant} pinkReception={occasion === "reception-pink"} />
 
       <WeddingCard key={variant} onOpened={() => setOpened(true)} />
 

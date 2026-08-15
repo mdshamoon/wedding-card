@@ -8,6 +8,7 @@ import { CornerFlourish, Divider, Monogram } from "./Ornaments";
 import { EventActions } from "./EventActions";
 import { RsvpForm } from "./RsvpForm";
 import { ShareButton } from "./ShareButton";
+import { ReceptionCoupleScene } from "./ReceptionCoupleScene";
 import { invitationVariants, type InvitationVariant } from "../variants";
 
 const item: Variants = {
@@ -47,7 +48,13 @@ function ReceptionBotanicals() {
   );
 }
 
-export function Invitation({ variant = "wedding" }: { variant?: InvitationVariant }) {
+export function Invitation({
+  variant = "wedding",
+  pinkReception = false,
+}: {
+  variant?: InvitationVariant;
+  pinkReception?: boolean;
+}) {
   const { lang, t } = useLang();
   const ur = lang === "ur";
   const script = ur ? "" : "font-script";
@@ -56,6 +63,9 @@ export function Invitation({ variant = "wedding" }: { variant?: InvitationVarian
   const nameCls = ur
     ? "text-[2.3rem] sm:text-5xl leading-[2.1] py-2 gold-text"
     : "font-script text-[3.1rem] sm:text-6xl leading-[1.15] gold-text";
+  const parentCls = ur
+    ? "-mt-3 text-base leading-loose text-muted2"
+    : "-mt-0.5 text-sm italic tracking-wide text-muted2";
   const guest = getGuestName();
 
   // Gentle parallax on the fixed corner florals as you scroll.
@@ -121,9 +131,17 @@ export function Invitation({ variant = "wedding" }: { variant?: InvitationVarian
 
         <Reveal className="mb-1.5 mt-6 flex flex-col items-center gap-1">
           <h1 className={nameCls}>{t.names.groom}</h1>
+          <p className={parentCls}>{t.names.groomParent}</p>
           <span className="font-serif text-2xl italic text-accent">&amp;</span>
           <h1 className={nameCls}>{t.names.bride}</h1>
+          <p className={parentCls}>{t.names.brideParent}</p>
         </Reveal>
+
+        {pinkReception && (
+          <Reveal className="reception-couple-placement">
+            <ReceptionCoupleScene />
+          </Reveal>
+        )}
 
         <Reveal className="mb-1 mt-4 flex justify-center">
           <Monogram size={88} />

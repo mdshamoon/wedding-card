@@ -45,7 +45,7 @@ export interface Dict {
   closing: string;
   quote: string;
   quoteSrc: string;
-  names: { groom: string; bride: string };
+  names: { groom: string; groomParent: string; bride: string; brideParent: string };
   events: { nikah: string; walima: string };
   days: Record<string, string>;
 }
@@ -96,7 +96,12 @@ export const dict: Record<Lang, Dict> = {
     quote:
       "And among His signs is that He created for you mates from among yourselves, that you may dwell in tranquillity with them, and He has put love and mercy between your hearts.",
     quoteSrc: "— Surah Ar-Rum (30:21)",
-    names: { groom: "Mohd Shamoon", bride: "Alina Fatima" },
+    names: {
+      groom: "Mohd Shamoon",
+      groomParent: "Son of Ayub Ahmad",
+      bride: "Alina Fatima",
+      brideParent: "Daughter of Shakeel Malik",
+    },
     events: { nikah: "The Nikah", walima: "The Reception (Walima)" },
     days: { Wednesday: "Wednesday", Thursday: "Thursday" },
   },
@@ -144,7 +149,12 @@ export const dict: Record<Lang, Dict> = {
     quote:
       "اور اس کی نشانیوں میں سے یہ ہے کہ اس نے تمہارے لیے تمہی میں سے جوڑے پیدا کیے تاکہ تم اُن سے سکون پاؤ، اور اُس نے تمہارے درمیان محبت اور رحمت رکھی۔",
     quoteSrc: "— سورۃ الروم (۳۰:۲۱)",
-    names: { groom: "محمد شمعون", bride: "آلینہ فاطمہ" },
+    names: {
+      groom: "محمد شمعون",
+      groomParent: "فرزندِ ایوب احمد",
+      bride: "آلینہ فاطمہ",
+      brideParent: "دخترِ شکیل ملک",
+    },
     events: { nikah: "نکاح", walima: "ولیمہ" },
     days: { Wednesday: "بدھ", Thursday: "جمعرات" },
   },

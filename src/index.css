@@ -138,6 +138,44 @@
 .reception-bloom-left { left: -9rem; top: 3rem; transform: rotate(-18deg); }
 .reception-bloom-right { right: -10rem; bottom: 5rem; transform: rotate(24deg) scale(.85); }
 
+/* Generated reception couple — intentionally exclusive to the pink route. */
+.reception-couple-scene {
+  pointer-events: none;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: clamp(24rem, 80vw, 35rem);
+}
+
+.reception-couple-scene img {
+  width: 100%;
+  height: 100%;
+  flex: none;
+  object-fit: contain;
+  object-position: center bottom;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 16px 24px rgba(106, 52, 69, .2));
+  animation: receptionCoupleFloat 7s ease-in-out infinite;
+}
+
+.reception-couple-placement {
+  margin: .5rem auto -1rem;
+  width: min(100%, 32rem);
+}
+
+@keyframes receptionCoupleFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-7px) scale(1.006); }
+}
+
+@media (max-width: 640px) {
+  .reception-couple-scene { height: min(128vw, 31rem); }
+  .reception-couple-placement { margin-top: 0; }
+}
+
 @layer base {
   * {
     -webkit-tap-highlight-color: transparent;
