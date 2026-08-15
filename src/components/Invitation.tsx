@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { motion, useScroll, useTransform, type Variants } from "framer-motion";
 import { wedding } from "../config";
 import { useLang } from "../i18n";
@@ -9,6 +9,8 @@ import { EventActions } from "./EventActions";
 import { RsvpForm } from "./RsvpForm";
 import { ShareButton } from "./ShareButton";
 import { ReceptionCoupleScene } from "./ReceptionCoupleScene";
+import { NikahCoupleScene } from "./NikahCoupleScene";
+import { ReceptionDanceScene } from "./ReceptionDanceScene";
 import { invitationVariants, type InvitationVariant } from "../variants";
 
 const item: Variants = {
@@ -162,18 +164,19 @@ export function Invitation({
 
         <Reveal className="mb-2 mt-9 flex flex-col gap-5">
           {events.map(({ event: e, index }) => (
-            <div
-              key={e.title}
-              className="rounded-xl border border-line bg-[image:var(--box-bg)] px-4 py-5"
-            >
-              <h2 className={`mb-2 ${display} text-lg tracking-wider gold-text`}>{t.events[eventKeys[index]]}</h2>
-              <p className="text-sm uppercase tracking-[0.2em] text-muted2">{t.days[e.day] ?? e.day}</p>
-              <p className={`my-0.5 ${display} text-[1.35rem] text-ink`} dir="ltr">{e.date}</p>
-              <p className="mb-2 text-base text-muted" dir="ltr">{e.time}</p>
-              <p className={`text-[1.05rem] text-accent2 ${ur ? "" : "italic"}`}>{e.venue}</p>
-              <p className="text-sm text-muted2">{e.address}</p>
-              <EventActions event={e} maps={e.maps} />
-            </div>
+            <Fragment key={e.title}>
+              <div className="rounded-xl border border-line bg-[image:var(--box-bg)] px-4 py-5">
+                <h2 className={`mb-2 ${display} text-lg tracking-wider gold-text`}>{t.events[eventKeys[index]]}</h2>
+                <p className="text-sm uppercase tracking-[0.2em] text-muted2">{t.days[e.day] ?? e.day}</p>
+                <p className={`my-0.5 ${display} text-[1.35rem] text-ink`} dir="ltr">{e.date}</p>
+                <p className="mb-2 text-base text-muted" dir="ltr">{e.time}</p>
+                <p className={`text-[1.05rem] text-accent2 ${ur ? "" : "italic"}`}>{e.venue}</p>
+                <p className="text-sm text-muted2">{e.address}</p>
+                <EventActions event={e} maps={e.maps} />
+              </div>
+              {variant === "wedding" && index === 0 && <NikahCoupleScene />}
+              {variant === "wedding" && index === 1 && <ReceptionDanceScene />}
+            </Fragment>
           ))}
         </Reveal>
 
