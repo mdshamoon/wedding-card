@@ -251,7 +251,7 @@ export function SeatingPage() {
       </div>
 
       <a
-        href="#/"
+        href={`${import.meta.env.BASE_URL}wedding`}
         className="absolute left-4 top-4 z-10 rounded-full border border-[#d4af37]/50 bg-black/30 px-4 py-2 font-serif text-sm tracking-wide text-[#f4d98a] backdrop-blur-sm"
       >
         ← {t.backToInvite}

@@ -4,16 +4,16 @@ export const invitationVariants = {
   wedding: {
     eventIndexes: [0, 1],
     countdownTarget: "2027-03-24T11:00:00",
-    sharePath: "#/wedding",
+    sharePath: "wedding",
   },
   nikah: {
     eventIndexes: [0],
     countdownTarget: "2027-03-24T11:00:00",
-    sharePath: "nikah/",
+    sharePath: "nikah",
   },
   reception: {
     eventIndexes: [1],
     countdownTarget: "2027-03-25T19:00:00",
-    sharePath: "reception/",
+    sharePath: "reception",
   },
 } as const;
